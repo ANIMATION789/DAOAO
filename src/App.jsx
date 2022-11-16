@@ -5,33 +5,33 @@ import {
   ConnectWallet,
   Web3Button,
   useNFTBalance,
-} from '@thirdweb-dev/react';
-import { ChainId } from '@thirdweb-dev/sdk';
-import { useState, useEffect, useMemo } from 'react';
-import { AddressZero } from '@ethersproject/constants';
+} from "@thirdweb-dev/react";
+import { ChainId } from "@thirdweb-dev/sdk";
+import { useState, useEffect, useMemo } from "react";
+import { AddressZero } from "@ethersproject/constants";
 
 const App = () => {
   // Use the hooks thirdweb give us.
   const address = useAddress();
   const network = useNetwork();
-  console.log('👋 Address:', address);
+  console.log("👋 Address:", address);
   // Initialize our Edition Drop contract
-  const editionDropAddress = 'INSERT_EDITION_DROP_ADDRESS';
+  const editionDropAddress = "0xE35c8346a58DcE8d2fF9471c7609ef43f8bD4eB9";
   const { contract: editionDrop } = useContract(
     editionDropAddress,
-    'edition-drop',
+    "edition-drop",
   );
   // Initialize our token contract
   const { contract: token } = useContract(
-    'INSERT_TOKEN_ADDRESS',
-    'token',
+    "0x14AF592F46e559b059bBAeC0c3851a8c",
+    "token",
   );
   const { contract: vote } = useContract(
-    'INSERT_VOTE_ADDRESS',
-    'vote',
+    "0x4278E988025F593B9E3E5d69F45A7b6a8d104b3B",
+    "vote",
   );
   // Hook to check if the user has our NFT
-  const { data: nftBalance } = useNFTBalance(editionDrop, address, '0');
+  const { data: nftBalance } = useNFTBalance(editionDrop, address, "0");
 
   const hasClaimedNFT = useMemo(() => {
     return nftBalance && nftBalance.gt(0);
@@ -44,7 +44,7 @@ const App = () => {
 
   // A fancy function to shorten someones wallet address, no need to show the whole thing.
   const shortenAddress = (str) => {
-    return str.substring(0, 6) + '...' + str.substring(str.length - 4);
+    return str.substring(0, 6) + "..." + str.substring(str.length - 4);
   };
 
   const [proposals, setProposals] = useState([]);
@@ -62,9 +62,9 @@ const App = () => {
       try {
         const proposals = await vote.getAll();
         setProposals(proposals);
-        console.log('🌈 Proposals:', proposals);
+        console.log("🌈 Proposals:", proposals);
       } catch (error) {
-        console.log('failed to get proposals', error);
+        console.log("failed to get proposals", error);
       }
     };
     getAllProposals();
@@ -87,12 +87,12 @@ const App = () => {
         const hasVoted = await vote.hasVoted(proposals[0].proposalId, address);
         setHasVoted(hasVoted);
         if (hasVoted) {
-          console.log('🥵 User has already voted');
+          console.log("🥵 User has already voted");
         } else {
-          console.log('🙂 User has not voted yet');
+          console.log("🙂 User has not voted yet");
         }
       } catch (error) {
-        console.error('Failed to check if wallet has voted', error);
+        console.error("Failed to check if wallet has voted", error);
       }
     };
     checkIfUserHasVoted();
@@ -111,9 +111,9 @@ const App = () => {
         const memberAddresses =
           await editionDrop?.history.getAllClaimerAddresses(0);
         setMemberAddresses(memberAddresses);
-        console.log('🚀 Members addresses', memberAddresses);
+        console.log("🚀 Members addresses", memberAddresses);
       } catch (error) {
-        console.error('failed to get member list', error);
+        console.error("failed to get member list", error);
       }
     };
     getAllAddresses();
@@ -129,9 +129,9 @@ const App = () => {
       try {
         const amounts = await token?.history.getAllHolderBalances();
         setMemberTokenAmounts(amounts);
-        console.log('👜 Amounts', amounts);
+        console.log("👜 Amounts", amounts);
       } catch (error) {
-        console.error('failed to get member balances', error);
+        console.error("failed to get member balances", error);
       }
     };
     getAllBalances();
@@ -149,42 +149,53 @@ const App = () => {
 
       return {
         address,
-        tokenAmount: member?.balance.displayValue || '0',
+        tokenAmount: member?.balance.displayValue || "0",
       };
     });
   }, [memberAddresses, memberTokenAmounts]);
 
-  if (address && network?.[0].data.chain.id !== ChainId.Goerli) {
+  // This is the case where the user hasn't connected their wallet
+  // to your web app. Let them call connectWallet.
+  
+  if (address && network?.[0].data.chain.id !== ChainId.Polygon) {
     return (
       <div className="unsupported-network">
-        <h2>Please connect to Goerli</h2>
+        <h2>Please connect to Polygon</h2>
         <p>
-          This dapp only works on the Goerli network, please switch networks in
+          This dapp only works on the Polygon network, please switch networks in
           your connected wallet.
         </p>
       </div>
     );
   }
-
-  // This is the case where the user hasn't connected their wallet
-  // to your web app. Let them call connectWallet.
+  
   if (!address) {
     return (
       <div className="landing">
-        <h1>Welcome to NarutoDAO</h1>
+        <img
+          class="center"
+          src="/daologo.png"
+          alt="D1"
+          width="450px"
+          padding
+          right="0.5rem"
+        />
+
+        <h1>DAO ALPHA OMEGA</h1>
+        <h2> NFT FILM & MEDIA PRODUCTION PLATFORM</h2>
+
         <div className="btn-hero">
           <ConnectWallet />
         </div>
       </div>
     );
   }
-
   // If the user has already claimed their NFT we want to display the interal DAO page to them
   // only DAO members will see this. Render all the members + token amounts.
   if (hasClaimedNFT) {
     return (
       <div className="member-page">
-        <h1>🍪DAO Member Page</h1>
+        <h1>DAO Member Page</h1>
         <p>Congratulations on being a member</p>
         <div>
           <div>
@@ -227,7 +238,7 @@ const App = () => {
                   };
                   proposal.votes.forEach((vote) => {
                     const elem = document.getElementById(
-                      proposal.proposalId + '-' + vote.type,
+                      proposal.proposalId + "-" + vote.type
                     );
 
                     if (elem.checked) {
@@ -280,15 +291,15 @@ const App = () => {
                       // if we get here that means we successfully voted, so let's set the "hasVoted" state to true
                       setHasVoted(true);
                       // and log out a success message
-                      console.log('successfully voted');
+                      console.log("successfully voted");
                     } catch (err) {
-                      console.error('failed to execute votes', err);
+                      console.error("failed to execute votes", err);
                     }
                   } catch (err) {
-                    console.error('failed to vote', err);
+                    console.error("failed to vote", err);
                   }
                 } catch (err) {
-                  console.error('failed to delegate tokens');
+                  console.error("failed to delegate tokens");
                 } finally {
                   // in *either* case we need to set the isVoting state to false to enable the button again
                   setIsVoting(false);
@@ -303,13 +314,13 @@ const App = () => {
                       <div key={type}>
                         <input
                           type="radio"
-                          id={proposal.proposalId + '-' + type}
+                          id={proposal.proposalId + "-" + type}
                           name={proposal.proposalId}
                           value={type}
                           //default the "abstain" vote to checked
                           defaultChecked={type === 2}
                         />
-                        <label htmlFor={proposal.proposalId + '-' + type}>
+                        <label htmlFor={proposal.proposalId + "-" + type}>
                           {label}
                         </label>
                       </div>
@@ -319,10 +330,10 @@ const App = () => {
               ))}
               <button disabled={isVoting || hasVoted} type="submit">
                 {isVoting
-                  ? 'Voting...'
+                  ? "Voting..."
                   : hasVoted
-                  ? 'You Already Voted'
-                  : 'Submit Votes'}
+                  ? "You Already Voted"
+                  : "Submit Votes"}
               </button>
               {!hasVoted && (
                 <small>
@@ -340,7 +351,7 @@ const App = () => {
   // Render mint nft screen.
   return (
     <div className="mint-nft">
-      <h1>Mint your free 🍪DAO Membership NFT</h1>
+      <h1>Mint your free DAO Membership NFT</h1>
       <div className="btn-hero">
         <Web3Button
           contractAddress={editionDropAddress}
@@ -349,13 +360,12 @@ const App = () => {
           }}
           onSuccess={() => {
             console.log(
-              `🌊 Successfully Minted! Check it out on OpenSea: https://testnets.opensea.io/assets/${editionDrop.getAddress()}/0`,
+              `🌊 Successfully Minted! Check it out on OpenSea: https://opensea.io/assets/${editionDrop.getAddress()}/0`
             );
           }}
           onError={(error) => {
-            console.error('Failed to mint NFT', error);
-          }}
-        >
+            console.error("Failed to mint NFT", error);
+          }}>
           Mint your NFT (FREE)
         </Web3Button>
       </div>
