@@ -7,9 +7,9 @@ import sdk from "./1-initialize-sdk.js";
       name: "Early Accces DAO Governance  ",
 
       // This is the location of our governance token, our ERC-20 contract!
-      voting_token_address: "0x14AF592F46e559b059bBAeC0c3851a8c902bEE15",
+      voting_token_address: "0x1681A54319C17F5f54C981679aD10D2D2FFEfF2c",
 
-      // These parameters are specified in number of blocks. 
+      // These parameters are specified in number of blocks.
       // Assuming block time of around 13.14 seconds (for Ethereum)
 
       // After a proposal is created, when can members start voting?
@@ -32,7 +32,7 @@ import sdk from "./1-initialize-sdk.js";
 
     console.log(
       "✅ Successfully deployed vote contract, address:",
-      voteContractAddress,
+      voteContractAddress
     );
   } catch (err) {
     console.error("Failed to deploy vote contract", err);

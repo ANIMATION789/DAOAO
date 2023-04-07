@@ -19,16 +19,16 @@ const App = () => {
   const editionDropAddress = "0xE35c8346a58DcE8d2fF9471c7609ef43f8bD4eB9";
   const { contract: editionDrop } = useContract(
     editionDropAddress,
-    "edition-drop",
+    "edition-drop"
   );
   // Initialize our token contract
   const { contract: token } = useContract(
-    "0x14AF592F46e559b059bBAeC0c3851a8c",
-    "token",
+    "0x1681A54319C17F5f54C981679aD10D2D2FFEfF2c",
+    "token"
   );
   const { contract: vote } = useContract(
     "0x4278E988025F593B9E3E5d69F45A7b6a8d104b3B",
-    "vote",
+    "vote"
   );
   // Hook to check if the user has our NFT
   const { data: nftBalance } = useNFTBalance(editionDrop, address, "0");
@@ -144,7 +144,7 @@ const App = () => {
       // If we are, we'll return the amount of token the user has.
       // Otherwise, return 0.
       const member = memberTokenAmounts?.find(
-        ({ holder }) => holder === address,
+        ({ holder }) => holder === address
       );
 
       return {
@@ -156,7 +156,7 @@ const App = () => {
 
   // This is the case where the user hasn't connected their wallet
   // to your web app. Let them call connectWallet.
-  
+
   if (address && network?.[0].data.chain.id !== ChainId.Polygon) {
     return (
       <div className="unsupported-network">
@@ -168,18 +168,20 @@ const App = () => {
       </div>
     );
   }
-  
+
   if (!address) {
     return (
       <div className="landing">
-        <img
-          class="center"
-          src="/daologo.png"
-          alt="D1"
-          width="450px"
-          padding
-          right="0.5rem"/>
-
+        <div id="container">
+          <img
+            class="center"
+            src="/daologo.png"
+            alt="D1"
+            width="450px"
+            padding
+            right="0.5rem"
+          />
+        </div>
         <h1>DAO ALPHA OMEGA</h1>
         <h2> NFT FILM & MEDIA PRODUCTION PLATFORM</h2>
 
@@ -271,7 +273,7 @@ const App = () => {
                         }
                         // if the proposal is not open for voting we just return nothing, letting us continue
                         return;
-                      }),
+                      })
                     );
                     try {
                       // if any of the propsals are ready to be executed we'll need to execute them
@@ -285,7 +287,7 @@ const App = () => {
                           if (proposal.state === 4) {
                             return vote.execute(proposalId);
                           }
-                        }),
+                        })
                       );
                       // if we get here that means we successfully voted, so let's set the "hasVoted" state to true
                       setHasVoted(true);
@@ -305,9 +307,53 @@ const App = () => {
                 }
               }}
             >
+              <div class="freelance-card">
+                <div class="freelance-card__header">
+                  <h3 class="freelance-card__title">
+                    Freelance Smart Contract Jobs
+                  </h3>
+                </div>
+                <div class="freelance-card__body">
+                  <p class="freelance-card__text">
+                    Looking for a freelance developer to help you with your
+                    smart contract needs? Look no further! Our team of expert
+                    developers is ready to help you build your next
+                    decentralized application.
+                  </p>
+                </div>
+                <div class="freelance-card__footer">
+                  <a href="." class="freelance-card__button">
+                    Contact Us
+                  </a>
+                </div>
+              </div>
+
               {proposals.map((proposal) => (
                 <div key={proposal.proposalId} className="card">
+                  <div class="card-content"></div>
                   <h5>{proposal.description}</h5>
+                  <progress
+                    value={proposal.voteCount}
+                    max={memberAddresses.length}
+                  />
+                  <div class="proposal-container">
+                    <p>
+                      {proposal.voteCount} out of {memberAddresses.length}{" "}
+                      members have voted
+                    </p>
+
+                    <div class="vote-counter">
+                      <div class="progress-bar">
+                        <div class="Against" style={{ width: 1 }}></div>
+                        <div class="For" style={{ width: 1 }}></div>
+                        <div class="Abstain" style={{ width: 1 }}></div>
+                        <div class="progress" style={{ width: 100 }}></div>
+                      </div>
+
+                      <span>% voted in favor</span>
+                    </div>
+                  </div>
+
                   <div>
                     {proposal.votes.map(({ type, label }) => (
                       <div key={type}>
@@ -327,6 +373,7 @@ const App = () => {
                   </div>
                 </div>
               ))}
+
               <button disabled={isVoting || hasVoted} type="submit">
                 {isVoting
                   ? "Voting..."
@@ -347,18 +394,73 @@ const App = () => {
     );
   }
 
-  useEffect (() => {
-    if (getVotesPercentage) {
-      return;
-    }
+  const getAllProposals = async () => {
+    console.log(proposals);
 
-  function
-  getVotesPercentage (upvotes, anyvotes, downvotes){let totalVotes= upvotes + anyvotes + downvotes;
-  let percentage =(upvotes/totalVotes) * 100;
-  return percentage;
-  
-  }},
-  );
+    const proposalID = "0";
+    const proposalVotes = await proposals.getAll();
+    const proposal = proposalVotes.find(
+      (vote) => vote.proposalID === proposalID
+    );
+
+    return (
+      <div>
+        <div>Proposal ID: {proposalID}</div>
+        <VoteCounter
+          Against={proposal.downvotes}
+          For={proposal.upvotes}
+          Abstain={proposal.anyvotes}
+        />
+      </div>
+    );
+  };
+
+  const VoteCounter = ({ upvotes, downvotes, anyvotes }) => {
+    const [percentage, setPercentage] = useState(0);
+    function updateProgressBar(optionAVotes, optionBVotes, optionCVotes) {
+      const totalVotes = optionAVotes + optionBVotes + optionCVotes;
+      const optionAPercentage = (optionAVotes / totalVotes) * 100;
+      const optionBPercentage = (optionBVotes / totalVotes) * 100;
+      const optionCPercentage = (optionCVotes / totalVotes) * 100;
+
+      document.querySelector(".For").style.width = `${optionAPercentage}%`;
+      document.querySelector(".Against").style.width = `${optionBPercentage}%`;
+      document.querySelector(".Abstain").style.width = `${optionCPercentage}%`;
+    }
+    let optionAVotes = 0;
+    let optionBVotes = 0;
+    let optionCVotes = 0;
+
+    const optionAButton = document.querySelector("For");
+    optionAButton.addEventListener("click", () => {
+      optionAVotes++;
+      updateProgressBar(optionAVotes, optionBVotes, optionCVotes);
+    });
+
+    const optionBButton = document.querySelector("Against");
+    optionBButton.addEventListener("click", () => {
+      optionBVotes++;
+      updateProgressBar(optionAVotes, optionBVotes, optionCVotes);
+    });
+
+    const optionCButton = document.querySelector("Abstain");
+    optionCButton.addEventListener("click", () => {
+      optionCVotes++;
+      updateProgressBar(optionAVotes, optionBVotes, optionCVotes);
+    });
+    updateProgressBar(optionAVotes, optionBVotes, optionCVotes);
+
+    useEffect(() => {
+      let totalVotes = upvotes + downvotes + anyvotes;
+      let percentage = (upvotes + downvotes + anyvotes / totalVotes) * 100;
+
+      setPercentage(percentage);
+    }, [upvotes, downvotes, anyvotes]);
+
+    return <div>Percentage of Upvotes: {percentage}%</div>;
+  };
+
+  getAllProposals();
 
   // Render mint nft screen.
   return (
@@ -377,7 +479,8 @@ const App = () => {
           }}
           onError={(error) => {
             console.error("Failed to mint NFT", error);
-          }}>
+          }}
+        >
           Mint your NFT (FREE)
         </Web3Button>
       </div>

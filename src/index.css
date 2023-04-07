@@ -1,17 +1,33 @@
 html,
+
+
+
+
+
+.Market{
+  align-content: center;
+    display: center;
+    position:center;
+  }
+  
+
+
+
 body {
   margin: 0;
   font-family: Orbitron, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #d1d4d6;
-  color: rgb(22, 42, 120);
+  background-color: #f3f5f6;
+  color: rgba(15, 35, 93, 0.828);
   overflow-x: hidden;
 }
 #root {
   min-height: 100vh;
   display: flex;
 }
+
+
 
 h1 {
   font-size: 5rem;
@@ -106,19 +122,32 @@ h1 {
 
 .member-page form small {
   text-align: center;
+  
 }
 
 .card {
   background-color: #fff;
   padding: 1rem;
+  font-size: normal;
+  width: 500px;
+  text-align:10px;
   border-radius: 1rem;
   color: #000;
   box-shadow: 3.1px 6.2px 6.2px hsl(0deg 0% 0% / 0.4);
 }
 
+.card-content{
+margin :-auto
+
+}
+
+
+
+
 .btn-hero {
   margin: auto;
   width: 450px;
+  
 }
 
 button {
@@ -146,3 +175,95 @@ button:disabled {
   opacity: 0.8;
   pointer-events: none;
 }
+ 
+  /* Style for VoteCounter component */
+  .vote-counter {
+    font-size: 10px;
+    font-weight: medium;
+    color: #2152a6;
+    margin: auto;
+    width:fit-content;
+    position: center;
+    align-content: center;
+  }
+  
+  
+
+  .progress bar{
+    background-color: #0616c3;
+    position: center;
+    border-radius: 2px;
+    width: 425px;
+    position: center;
+    height: 40px;
+    margin: 0px;;
+    overflow: hidden;
+  }
+  
+ 
+  
+  
+.Against {
+  height: 100%;
+  background-color: #711414;
+  float: left;
+}
+
+.For {
+  height: 100%;
+  background-color: #0711a7fe;
+  float: left;
+}
+
+.Abstain {
+  height: 100%;
+  background-color: #9a9995;
+  float: left;
+}
+.freelance-card {
+ 
+  bottom: 20px;
+  left: 80px;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 2;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(21, 5, 243, 0.814);
+  padding: 20px;
+}
+
+.freelance-card__header {
+  margin-bottom: 10px;
+}
+
+.freelance-card__title {
+  font-size: 20px;
+  margin: 0;
+}
+
+.freelance-card__text {
+  font-size: 16px;
+  margin: 0;
+}
+
+.freelance-card__footer {
+  margin-top: 20px;
+}
+
+.freelance-card__button {
+  display: inline-block;
+  position: relative;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 3;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.freelance-card__button:hover {
+  background-color: #0062cc;
+}
+

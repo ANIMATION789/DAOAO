@@ -2,7 +2,7 @@ import sdk from "./1-initialize-sdk.js";
 
 (async () => {
   try {
-    const token = await sdk.getContract("0x14AF592F46e559b059bBAeC0c3851a8c902bEE15", "token");
+    const token = await sdk.getContract("0x1681A54319C17F5f54C981679aD10D2D2FFEfF2c", "token");
     // Log the current roles.
     const allRoles = await token.roles.getAll();
 

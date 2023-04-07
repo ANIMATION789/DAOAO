@@ -4,12 +4,21 @@ import { ethers } from "ethers";
 (async () => {
   try {
     // This is our governance contract.
-    const vote = await sdk.getContract("0x4278E988025F593B9E3E5d69F45A7b6a8d104b3B", "vote");
+    const vote = await sdk.getContract(
+      "0x4278E988025F593B9E3E5d69F45A7b6a8d104b3B",
+      "vote"
+    );
     // This is our ERC-20 contract.
-    const token = await sdk.getContract("0x14AF592F46e559b059bBAeC0c3851a8c902bEE15", "token");
+    const token = await sdk.getContract(
+      "0x1681A54319C17F5f54C981679aD10D2D2FFEfF2c",
+      "token"
+    );
     // Create proposal to mint 420,000 new token to the treasury.
     const amount = 420_000;
-    const description = "Should the DAO mint an additional " + amount + " tokens into the treasury?";
+    const description =
+      "Should the DAO mint an additional " +
+      amount +
+      " tokens into the treasury?";
     const executions = [
       {
         // Our token contract that actually executes the mint.
@@ -22,13 +31,11 @@ import { ethers } from "ethers";
         // acting as our treasury.
         // in this case, we need to use ethers.js to convert the amount
         // to the correct format. This is because the amount it requires is in wei.
-        transactionData: token.encoder.encode(
-          "mintTo", [
+        transactionData: token.encoder.encode("mintTo", [
           vote.getAddress(),
           ethers.utils.parseUnits(amount.toString(), 18),
-        ]
-        ),
-      }
+        ]),
+      },
     ];
 
     await vote.propose(description, executions);
@@ -41,13 +48,22 @@ import { ethers } from "ethers";
 
   try {
     // This is our governance contract.
-    const vote = await sdk.getContract("0x4278E988025F593B9E3E5d69F45A7b6a8d104b3B", "vote");
+    const vote = await sdk.getContract(
+      "0x4278E988025F593B9E3E5d69F45A7b6a8d104b3B",
+      "vote"
+    );
     // This is our ERC-20 contract.
-    const token = await sdk.getContract("0x14AF592F46e559b059bBAeC0c3851a8c902bEE15", "token");
+    const token = await sdk.getContract(
+      "0x1681A54319C17F5f54C981679aD10D2D2FFEfF2c",
+      "token"
+    );
     // Create proposal to transfer ourselves 6,900 tokens for being awesome.
     const amount = 6_900;
-    const description = "Should the DAO transfer " + amount + " tokens from the treasury to " +
-      process.env.WALLET_ADDRESS + " for being awesome?";
+    const description =
+      "Should the DAO transfer " +
+      amount +
+      " tokens from the treasury to " +
+      process.env.WALLET_ADDRESS;
     const executions = [
       {
         // Again, we're sending ourselves 0 ETH. Just sending our own token.
