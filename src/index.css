@@ -1,11 +1,11 @@
 html,
 body {
   margin: 0;
-  font-family: Inter, sans-serif;
+  font-family: Orbitron, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #7700ee;
-  color: #fff;
+  background-color: #d1d4d6;
+  color: rgb(22, 42, 120);
   overflow-x: hidden;
 }
 #root {
@@ -15,6 +15,8 @@ body {
 
 h1 {
   font-size: 5rem;
+  font-weight: 900;
+  margin: 0;
 }
 @media screen and (max-width: 768px) {
   h1 {
@@ -93,7 +95,7 @@ h1 {
 
 .member-page form h5 {
   margin-top: 0;
-  color: #7700ee;
+  color: #031149;
 }
 
 .member-page form .card > div {
@@ -116,12 +118,12 @@ h1 {
 
 .btn-hero {
   margin: auto;
-  width: 250px;
+  width: 450px;
 }
 
 button {
   cursor: pointer;
-  background-color: #000;
+  background-color: rgb(6, 61, 138);
   color: #fff;
   border: none;
   font-weight: bold;
@@ -133,11 +135,11 @@ button {
 }
 
 button:hover {
-  background-color: #121212;
+  background-color: #033846;
 }
 
 button:focus {
-  background-color: #222;
+  background-color: rgb(73, 3, 14);
 }
 
 button:disabled {

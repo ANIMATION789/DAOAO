@@ -178,8 +178,7 @@ const App = () => {
           alt="D1"
           width="450px"
           padding
-          right="0.5rem"
-        />
+          right="0.5rem"/>
 
         <h1>DAO ALPHA OMEGA</h1>
         <h2> NFT FILM & MEDIA PRODUCTION PLATFORM</h2>
@@ -347,6 +346,19 @@ const App = () => {
       </div>
     );
   }
+
+  useEffect (() => {
+    if (getVotesPercentage) {
+      return;
+    }
+
+  function
+  getVotesPercentage (upvotes, anyvotes, downvotes){let totalVotes= upvotes + anyvotes + downvotes;
+  let percentage =(upvotes/totalVotes) * 100;
+  return percentage;
+  
+  }},
+  );
 
   // Render mint nft screen.
   return (

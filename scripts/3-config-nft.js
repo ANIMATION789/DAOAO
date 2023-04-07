@@ -6,7 +6,7 @@ import { readFileSync } from "fs";
     const editionDrop = await sdk.getContract("0xE35c8346a58DcE8d2fF9471c7609ef43f8bD4eB9", "edition-drop");
     await editionDrop.createBatch([
       {
-        name: "ACCES KEY",
+        name: " DAO ACCES KEY",
         description: "This NFT will give you access to the DAO!",
         image: readFileSync("scripts/assets/key.mp4"),
       },
