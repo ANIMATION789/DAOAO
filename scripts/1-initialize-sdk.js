@@ -37,5 +37,3 @@ const sdk = ThirdwebSDK.fromPrivateKey(
 // We are exporting the initialized thirdweb SDK so that we can use it in our other scripts
 export default sdk;
 
-// We are exporting the initialized thirdweb SDK so that we can use it in our other scripts
-export default sdk;
