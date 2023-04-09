@@ -21,7 +21,7 @@ const sdk = ThirdwebSDK.fromPrivateKey(
   // Your wallet private key. ALWAYS KEEP THIS PRIVATE, DO NOT SHARE IT WITH ANYONE, add it to your .env file and do not commit that file to github!
   process.env.PRIVATE_KEY,
   // RPC URL, we'll use our QuickNode API URL from our .env file.
-  "goerli"
+  "polygon"
 );
 
 (async () => {
@@ -33,6 +33,9 @@ const sdk = ThirdwebSDK.fromPrivateKey(
     process.exit(1);
   }
 })();
+
+// We are exporting the initialized thirdweb SDK so that we can use it in our other scripts
+export default sdk;
 
 // We are exporting the initialized thirdweb SDK so that we can use it in our other scripts
 export default sdk;
